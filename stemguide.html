@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEM Guide | Egypt</title>
+    <link rel="icon" href="head.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* --- Brand Identity Colors --- */
+            --brand-dark-blue: #1E3A8A;
+            --brand-orange: #FF6B35;
+            --brand-teal: #0891B2;
+            --brand-purple: #7E22CE;
+            --brand-green: #10B981;
+            --brand-yellow: #F59E0B;
+            --brand-white: #FFFFFF;
+            --brand-off-white: #F8FAFC;
+            --brand-dark: #1F2937;
+            
+            --text-light: #4B5563;
+            --bg-gradient: linear-gradient(135deg, #F8FAFC 0%, #eef2ff 50%, #fff7ed 100%);
+            --ai-gradient: linear-gradient(135deg, #7E22CE, #0891B2);
+            --card-bg: rgba(255, 255, 255, 0.85);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-gradient);
+            color: var(--brand-dark);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- 1. Soft Background Blobs --- */
+        .bg-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            z-index: -2;
+            opacity: 0.3;
+            animation: float-blob 15s infinite alternate ease-in-out;
+        }
+        .blob-1 { top: -5%; left: -10%; width: 500px; height: 500px; background: var(--brand-orange); }
+        .blob-2 { top: 40%; right: -5%; width: 400px; height: 400px; background: var(--brand-teal); animation-delay: -5s; }
+        .blob-3 { bottom: 10%; left: 20%; width: 600px; height: 600px; background: var(--brand-purple); animation-duration: 20s; }
+
+        @keyframes float-blob {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(80px, 120px) scale(1.1); }
+        }
+
+        /* --- 2. NEW: Moving Vector Shapes from Visual Identity --- */
+        .vector-bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none; /* Prevents shapes from blocking clicks */
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .vector-shape {
+            position: absolute;
+            opacity: 0.08; /* Super subtle so it doesn't clash with text */
+            animation: floatShape 25s infinite ease-in-out;
+        }
+
+        .vector-shape svg { width: 100%; height: auto; }
+
+        /* Positioning and styling the specific icons */
+        .shape-atom { top: 15%; left: 8%; width: 120px; color: var(--brand-dark-blue); animation-duration: 28s; }
+        .shape-circuit { top: 60%; left: 4%; width: 150px; color: var(--brand-orange); animation-duration: 35s; animation-direction: reverse; }
+        .shape-brain { top: 75%; right: 8%; width: 100px; color: var(--brand-purple); animation-duration: 22s; }
+        .shape-flask { top: 20%; right: 5%; width: 90px; color: var(--brand-teal); animation-duration: 30s; }
+        .shape-gear { top: 45%; right: 15%; width: 110px; color: var(--brand-green); animation-duration: 40s; animation-direction: reverse; }
+        .shape-geometric { top: 40%; left: 20%; width: 180px; color: var(--brand-yellow); animation-duration: 32s; }
+
+        @keyframes floatShape {
+            0% { transform: translateY(0) rotate(0deg) scale(1); }
+            33% { transform: translateY(-40px) rotate(15deg) scale(1.05); }
+            66% { transform: translateY(20px) rotate(-10deg) scale(0.95); }
+            100% { transform: translateY(0) rotate(0deg) scale(1); }
+        }
+
+        /* --- Floating Navigation Bar --- */
+        .navbar-container { padding: 1.5rem 4rem; display: flex; justify-content: center; position: sticky; top: 0; z-index: 100; transition: padding 0.3s ease; }
+        .navbar-container.scrolled { padding: 1rem 4rem; }
+        .navbar { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px); border-radius: 50px; padding: 0.8rem 2rem; display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; box-shadow: 0 10px 30px rgba(30, 58, 138, 0.08); }
+
+        .logo { display: flex; align-items: center; }
+        .logo-img { max-height: 45px; width: auto; object-fit: contain; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .logo-img:hover { transform: scale(1.1) rotate(-3deg); }
+
+        .nav-links { display: flex; list-style: none; gap: 3rem; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: var(--text-light); font-weight: 600; font-size: 0.95rem; transition: color 0.3s; position: relative; }
+        .nav-links a:hover, .nav-links a.active { color: var(--brand-dark-blue); }
+        .nav-links a::after { content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%) scaleX(0); width: 24px; height: 3px; background-color: var(--brand-orange); border-radius: 2px; transition: transform 0.3s ease; }
+        .nav-links a:hover::after, .nav-links a.active::after { transform: translateX(-50%) scaleX(1); }
+
+        /* Pulsing AI Button */
+        .ai-btn { width: 45px; height: 45px; border-radius: 50%; background: var(--ai-gradient); display: flex; justify-content: center; align-items: center; color: white; font-size: 1.3rem; cursor: pointer; box-shadow: 0 4px 15px rgba(126, 34, 206, 0.4); animation: ai-pulse 2s infinite; transition: transform 0.2s ease; }
+        .ai-btn:hover { transform: scale(1.15); animation: none; box-shadow: 0 8px 25px rgba(126, 34, 206, 0.6); }
+        @keyframes ai-pulse { 0% { box-shadow: 0 0 0 0 rgba(126, 34, 206, 0.6); } 70% { box-shadow: 0 0 0 15px rgba(126, 34, 206, 0); } 100% { box-shadow: 0 0 0 0 rgba(126, 34, 206, 0); } }
+
+        /* --- AI Chat Slide-out Panel --- */
+        .ai-side-panel { position: fixed; top: 0; right: -420px; width: 100%; max-width: 400px; height: 100vh; background: var(--brand-white); box-shadow: -10px 0 40px rgba(0,0,0,0.15); transition: right 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); z-index: 1000; display: flex; flex-direction: column; }
+        .ai-side-panel.active { right: 0; }
+        .chat-header { padding: 1.5rem; background: var(--ai-gradient); color: white; display: flex; justify-content: space-between; align-items: center; }
+        .chat-header h3 { margin: 0; font-size: 1.2rem; font-weight: 600; }
+        .close-btn { background: none; border: none; color: white; font-size: 1.8rem; cursor: pointer; transition: transform 0.3s; }
+        .close-btn:hover { transform: scale(1.2) rotate(90deg); }
+        .chat-box { flex: 1; padding: 1.5rem; overflow-y: auto; background: var(--brand-off-white); display: flex; flex-direction: column; gap: 1rem; scroll-behavior: smooth; }
+        .chat-msg { max-width: 80%; padding: 1rem; border-radius: 15px; font-size: 0.95rem; line-height: 1.5; animation: pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .msg-ai { background: var(--brand-white); border: 1px solid #e5e7eb; align-self: flex-start; border-bottom-left-radius: 2px; color: var(--brand-dark); }
+        .msg-user { background: var(--brand-teal); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        @keyframes pop-in { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
+        .chat-input { padding: 1.5rem; background: var(--brand-white); border-top: 1px solid #e5e7eb; display: flex; gap: 10px; }
+        .chat-input input { flex: 1; padding: 0.8rem 1.2rem; border: 1px solid #d1d5db; border-radius: 25px; outline: none; font-family: 'Poppins', sans-serif; color: var(--brand-dark); transition: border-color 0.3s; }
+        .chat-input input:focus { border-color: var(--brand-teal); }
+        .chat-input button { background: var(--brand-teal); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; transition: transform 0.2s, background 0.2s; }
+        .chat-input button:hover { transform: scale(1.1); background: var(--brand-dark-blue); }
+
+        /* --- Hero Section --- */
+        .hero { display: flex; align-items: center; justify-content: space-between; max-width: 1200px; margin: 2rem auto; padding: 0 4rem; min-height: 70vh; position: relative; z-index: 10; }
+        .hero-text h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1.5px; color: var(--brand-dark); }
+        .text-gradient-animate { background: linear-gradient(270deg, var(--brand-dark-blue), var(--brand-teal), var(--brand-purple), var(--brand-orange)); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: flowGradient 6s ease infinite; }
+        @keyframes flowGradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .hero-text p { font-size: 1.1rem; color: var(--text-light); line-height: 1.6; margin-bottom: 2.5rem; max-width: 90%; }
+
+        .btn-primary { display: inline-block; background: var(--brand-teal); color: white; padding: 1.1rem 2.8rem; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(8, 145, 178, 0.3); border: none; cursor: pointer; }
+        .btn-primary:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(8, 145, 178, 0.5); background: var(--brand-dark-blue); }
+
+        .hero-image { flex: 1; display: flex; justify-content: center; position: relative; }
+        /* Final Video Style */
+        .dynamic-element {
+            width: 100%;
+            max-width: 800px;  /* Large size */
+            height: auto;      /* Maintains correct aspect ratio */
+            
+            border-radius: 30px; /* Smooth rounded corners */
+            box-shadow: 0 20px 50px rgba(30, 58, 138, 0.2); /* Deep shadow for depth */
+            
+            /* Animation */
+            animation: float 6s ease-in-out infinite;
+            transition: transform 0.1s ease-out;
+            
+            /* Blending (Optional: Remove this line if video looks dark) */
+            mix-blend-mode: multiply; 
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-25px); } }
+
+        /* --- Scroll Reveal Classes --- */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- Content Sections --- */
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 5rem 4rem; position: relative; z-index: 10; }
+        .section-title { font-size: 2.8rem; margin-bottom: 1rem; color: var(--brand-dark-blue); text-align: center; letter-spacing: -1px; }
+        .section-subtitle { text-align: center; color: var(--text-light); margin-bottom: 4rem; font-size: 1.1rem; }
+
+        .materials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.8rem; position: relative; z-index: 50; pointer-events: auto; }
+
+        .subject-card { background: var(--card-bg); backdrop-filter: blur(10px); padding: 2rem 1.8rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 10px 30px rgba(30, 58, 138, 0.04); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; border-top: 4px solid var(--brand-teal); position: relative; overflow: hidden; text-decoration: none; display: block; z-index: 50; }
+        .subject-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transition: left 0.5s ease; z-index: 1; pointer-events: none; }
+        .subject-card:hover::before { left: 100%; }
+        .subject-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(30, 58, 138, 0.1); z-index: 60; }
+
+        .card-blue { border-top-color: var(--brand-dark-blue); }
+        .card-orange { border-top-color: var(--brand-orange); }
+        .card-purple { border-top-color: var(--brand-purple); }
+        .card-green { border-top-color: var(--brand-green); }
+        .card-yellow { border-top-color: var(--brand-yellow); }
+
+        .subject-card h3 { margin-top: 0; color: var(--brand-dark); font-size: 1.3rem; display: flex; align-items: center; gap: 10px; position: relative; z-index: 2; }
+        .subject-card p { font-size: 0.95rem; color: var(--text-light); line-height: 1.5; position: relative; z-index: 2; }
+
+        .info-card { background: var(--brand-white); padding: 3rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(30, 58, 138, 0.05); margin-bottom: 2rem; line-height: 1.8; border-left: 5px solid var(--brand-orange); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .info-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(30, 58, 138, 0.1); }
+
+        /* --- Footer --- */
+        .site-footer { background-color: var(--brand-dark-blue); color: rgba(255, 255, 255, 0.8); text-align: center; padding: 4rem 1rem; font-size: 0.95rem; border-top: 5px solid var(--brand-orange); position: relative; overflow: hidden; z-index: 10; }
+        .site-footer p { margin: 0.5rem 0; position: relative; z-index: 2; }
+        .footer-highlight { color: var(--brand-white); font-weight: 600; }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+    <div class="bg-blob blob-3"></div>
+
+    <div class="vector-bg-container">
+        <div class="vector-shape shape-atom">
+            <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4">
+                <ellipse cx="50" cy="50" rx="40" ry="14" transform="rotate(30 50 50)"/>
+                <ellipse cx="50" cy="50" rx="40" ry="14" transform="rotate(-30 50 50)"/>
+                <ellipse cx="50" cy="50" rx="40" ry="14" transform="rotate(90 50 50)"/>
+                <circle cx="50" cy="50" r="8" fill="currentColor"/>
+            </svg>
+        </div>
+        <div class="vector-shape shape-circuit">
+            <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round">
+                <path d="M10 50 h30 l20 -30 h30"/>
+                <circle cx="90" cy="20" r="5" fill="currentColor"/>
+                <path d="M40 50 l20 30 h30"/>
+                <circle cx="90" cy="80" r="5" fill="currentColor"/>
+                <circle cx="10" cy="50" r="5" fill="currentColor"/>
+            </svg>
+        </div>
+        <div class="vector-shape shape-flask">
+            <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round">
+                <path d="M40 15 h20 v20 l25 45 a10 10 0 0 1 -8 15 h-54 a10 10 0 0 1 -8 -15 l25 -45 v-20"/>
+                <path d="M25 65 h50"/>
+            </svg>
+        </div>
+        <div class="vector-shape shape-gear">
+            <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="8">
+                <circle cx="50" cy="50" r="22"/>
+                <path d="M50 10 v10 m0 60 v10 m40 -40 h-10 m-60 0 h-10 m58 -28 l-7 7 m-42 42 l-7 7 m58 0 l-7 -7 m-42 -42 l-7 -7" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <div class="vector-shape shape-brain">
+            <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round">
+                <path d="M50 90 c-25 0 -45 -15 -40 -40 c0 -15 10 -25 20 -30 c10 -5 20 -5 20 10 c0 -15 10 -15 20 -10 c10 5 20 15 20 30 c5 25 -15 40 -40 40 z"/>
+                <path d="M50 25 v65"/>
+                <path d="M30 45 c10 5 10 15 20 15"/>
+                <path d="M70 45 c-10 5 -10 15 -20 15"/>
+            </svg>
+        </div>
+        <div class="vector-shape shape-geometric">
+            <svg viewBox="0 0 100 100" fill="currentColor">
+                <path d="M10 50 a40 40 0 0 1 80 0 h-80"/>
+            </svg>
+        </div>
+    </div>
+
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(31, 41, 55, 0.4); backdrop-filter: blur(4px); z-index: 999; transition: opacity 0.3s;" onclick="toggleChat()"></div>
+
+    <aside class="ai-side-panel" id="aiPanel">
+        <div class="chat-header">
+            <h3>✨ AI Tutor</h3>
+            <button class="close-btn" onclick="toggleChat()">×</button>
+        </div>
+        <div class="chat-box" id="chatHistory">
+            <div class="chat-msg msg-ai">
+                Hello! Ready to dive into your STEM studies? Let me know if you need help with your Capstone, Chemistry, or any other subject.
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Ask your question..." onkeypress="handleEnter(event)">
+            <button onclick="sendMessage()">➤</button>
+        </div>
+    </aside>
+
+    <div class="navbar-container" id="navContainer">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#introduction"><img src="logo.png" alt="STEM Guide Logo" class="logo-img"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#introduction" class="active">Home</a></li>
+                <li><a href="#materials">Materials</a></li>
+                <li><a href="#tips">Tips & Tricks</a></li>
+                <li><a href="#about">About Us</a></li>
+            </ul>
+            <div class="ai-btn" onclick="toggleChat()" title="Open AI Tutor">✨</div>
+        </nav>
+    </div>
+
+    <main class="hero" id="introduction">
+        <div class="hero-text reveal">
+            <h1>
+                Find Your Next<br> 
+                <span class="text-gradient-animate">Big Skill Faster</span>
+            </h1>
+            <p>Our Courses Will Accurately Match You To Professions That You'll Love And Succeed In! Your ultimate guide to navigating STEM High Schools in Egypt.</p>
+            <a href="#materials" class="btn-primary">Get Started</a>
+        </div>
+        
+        <div class="hero-image reveal" style="transition-delay: 0.2s;">
+            <video class="dynamic-element" autoplay loop muted playsinline>
+                <source src="brain_animation.mp4" type="video/mp4">
+            </video>
+        </div>
+    </main>
+
+    <section class="section-container">
+        <div class="info-card reveal">
+            <h3 style="color: var(--brand-dark-blue); font-size: 1.5rem;">The Egyptian STEM System</h3>
+            <p>STEM (Science, Technology, Engineering, and Mathematics) high schools in Egypt are designed for top-performing middle school graduates. The curriculum is uniquely project-based, emphasizing critical thinking, scientific research, and real-world problem-solving rather than rote memorization.</p>
+            <h3 style="color: var(--brand-dark-blue); font-size: 1.5rem; margin-top: 1.5rem;">Admission Constraints</h3>
+            <ul style="color: var(--text-light);">
+                <li>Achieve a near-perfect score (usually 98%+) in the preparatory certificate.</li>
+                <li>Obtain full marks in at least one or two of the core subjects: English, Science, or Math.</li>
+                <li>Pass the rigorous multi-disciplinary STEM admission test (IQ, Math, Science, and English).</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="materials" class="section-container" style="padding-top: 2rem;">
+        <h2 class="section-title reveal">Study Materials</h2>
+        <p class="section-subtitle reveal">Comprehensive resources mapped to your specific curriculum.</p>
+        
+        <div class="materials-grid">
+            <a href="arabic.html" class="subject-card card-green reveal" style="transition-delay: 0.1s;"><h3>📚 Arabic</h3><p>Literature, grammar, and specialized texts.</p></a>
+            <a href="english.html" class="subject-card card-yellow reveal" style="transition-delay: 0.2s;"><h3>🗣️ English</h3><p>Advanced comprehension and scientific writing.</p></a>
+            <a href="second-language.html" class="subject-card card-purple reveal" style="transition-delay: 0.3s;"><h3>💬 Second Lang</h3><p>Grammar and conversational practice.</p></a>
+            <a href="biology.html" class="subject-card card-green reveal" style="transition-delay: 0.4s;"><h3>🧬 Biology</h3><p>Cellular processes and genetics.</p></a>
+            <a href="chemistry.html" class="subject-card card-teal reveal" style="transition-delay: 0.1s;"><h3>🧪 Chemistry</h3><p>Reactions, organic structures, lab safety.</p></a>
+            <a href="math.html" class="subject-card card-blue reveal" style="transition-delay: 0.2s;"><h3>📐 Maths</h3><p>Complex numbers, quadratics, and calculus.</p></a>
+            <a href="mechanics.html" class="subject-card card-orange reveal" style="transition-delay: 0.3s;"><h3>⚙️ Mechanics</h3><p>Statics, dynamics, and wind turbine mechanics.</p></a>
+            <a href="social-studies.html" class="subject-card card-yellow reveal" style="transition-delay: 0.4s;"><h3>🌍 Social Studies</h3><p>History, geography, and global impacts.</p></a>
+            <a href="physics.html" class="subject-card card-purple reveal" style="transition-delay: 0.1s;"><h3>⚡ Physics</h3><p>Thermodynamics, optics, and quantum basics.</p></a>
+            <a href="religion.html" class="subject-card card-green reveal" style="transition-delay: 0.2s;"><h3>📖 Religion</h3><p>Required curriculum studies.</p></a>
+            <a href="geology.html" class="subject-card card-orange reveal" style="transition-delay: 0.3s;"><h3>🪨 Geology</h3><p>Earth sciences and mineralogy.</p></a>
+            <a href="computer-science.html" class="subject-card card-blue reveal" style="transition-delay: 0.4s;"><h3>💻 Comp Science</h3><p>Programming algorithms, and AI integration.</p></a>
+            
+            <a href="capstone.html" class="subject-card reveal" style="grid-column: 1 / -1; background: var(--ai-gradient); border: none; color: white; transition-delay: 0.1s;">
+                <h3 style="color: white;">🚀 Capstone Journal & Projects</h3>
+                <p style="color: rgba(255,255,255,0.9);">Guidelines, templates, and successful past projects to guide your major engineering design challenges from day one.</p>
+            </a>
+        </div>
+    </section>
+
+    <section id="tips" class="section-container">
+        <h2 class="section-title reveal">Tips & Tricks</h2>
+        <p class="section-subtitle reveal">Priceless advice from accomplished alumni.</p>
+        <div class="materials-grid">
+            <div class="info-card reveal" style="border-left-color: var(--brand-teal); transition-delay: 0.1s;">
+                <p><em>"Don't leave your Capstone journal until the last week. Documenting your process is just as important as the final prototype. Start your research early!"</em></p>
+                <strong style="color: var(--brand-dark-blue);">- Class of 2023 Senior</strong>
+            </div>
+            <div class="info-card reveal" style="border-left-color: var(--brand-purple); transition-delay: 0.3s;">
+                <p><em>"Time management is your best friend. Balance your UR (University Requirements) studying with your project deadlines by utilizing the Pomodoro technique."</em></p>
+                <strong style="color: var(--brand-dark-blue);">- Class of 2024 Senior</strong>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section-container" style="padding-bottom: 8rem;">
+        <h2 class="section-title">About Us</h2>
+        <p class="section-subtitle">The team driving the future of learning.</p>
+        <div class="info-card" style="text-align: center; max-width: 650px; margin: 0 auto; border-left: none; border-top: 5px solid var(--brand-dark-blue);">
+            <div style="width: 110px; height: 110px; background: var(--brand-off-white); border: 3px solid var(--brand-teal); border-radius: 50%; margin: 0 auto 1.5rem; display: flex; justify-content: center; align-items: center; font-size: 3rem;">
+                👨‍💻
+            </div>
+            <h3 style="font-size: 1.8rem; margin-bottom: 0.2rem; color: var(--brand-dark-blue);">Mohamed Monsef</h3>
+            <p style="color: var(--brand-orange); font-weight: 600; margin-top: 0; letter-spacing: 1px;">LEAD DEVELOPER - CLASS 1A</p>
+            <p style="margin-top: 1.5rem; color: var(--text-light);">We built STEM Guide to help our peers navigate the intense but rewarding curriculum of STEM schools in Egypt. Our goal is to consolidate the best study materials, provide AI assistance, and create a supportive hub for every student.</p>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="section-container" style="padding: 0;">
+            <p>&copy; 2026 <span class="footer-highlight">STEM Guide</span>. All rights reserved.</p>
+            <p>Designed and built for Egyptian STEM students by <span class="footer-highlight">Game Changers Team(R3S)</span>.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Animations
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // 3D Parallax Effect
+        document.addEventListener('mousemove', function(e) {
+            const dynamicObj = document.getElementById('dynamicObj');
+            if(dynamicObj) {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
+                dynamicObj.style.transform = `translateY(0px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            }
+        });
+        document.addEventListener('mouseleave', function() {
+            const dynamicObj = document.getElementById('dynamicObj');
+            if(dynamicObj) {
+                dynamicObj.style.transform = `translateY(0px) rotateY(0deg) rotateX(0deg)`;
+                dynamicObj.style.transition = 'transform 0.5s ease';
+            }
+        });
+
+        // Navbar Active State
+        const sections = document.querySelectorAll('section, main');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const navContainer = document.getElementById('navContainer');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) navContainer.classList.add('scrolled');
+            else navContainer.classList.remove('scrolled');
+
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= (sectionTop - 250)) current = section.getAttribute('id');
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') && link.getAttribute('href').startsWith('#') && link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // AI Chat Panel
+        function toggleChat() {
+            const panel = document.getElementById('aiPanel');
+            const overlay = document.getElementById('overlay');
+            if (panel.classList.contains('active')) {
+                panel.classList.remove('active');
+                overlay.style.display = 'none';
+            } else {
+                panel.classList.add('active');
+                overlay.style.display = 'block';
+                setTimeout(() => document.getElementById('userInput').focus(), 500);
+            }
+        }
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chatHistory = document.getElementById('chatHistory');
+            const message = input.value.trim();
+            if (message === '') return;
+            chatHistory.innerHTML += `<div class="chat-msg msg-user">${message}</div>`;
+            input.value = '';
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+            setTimeout(() => {
+                chatHistory.innerHTML += `<div class="chat-msg msg-ai">That's a great question! Once my backend is hooked up to an API, I'll be able to help you study that in detail.</div>`;
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+            }, 800);
+        }
+        function handleEnter(event) { if (event.key === 'Enter') sendMessage(); }
+    </script>
+</body>
+</html>
